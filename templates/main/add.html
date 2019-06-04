@@ -1,0 +1,58 @@
+{%extends 'base.html'%} {%block content%} {%load crispy_forms_tags%}
+<script>
+</script>
+<div class="form-group form-horizontal">
+    <form style="text-align:center;width: 380px;margin: 0 auto;" method="POST">
+        {%csrf_token%}
+        <div class="col-xs-2">
+            <form method="POST">
+                {{form|crispy}}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+    </form>
+</div>
+<script>
+    $("#country-select").change(function() {
+        console.log($(this).find('option:selected').val())
+        pk = $(this).find(':selected').val()
+        $.ajax({
+            url: "/hotel/RegionLookup/" + pk,
+            success: function(result) {
+                result = JSON.parse(result)
+                    // console.log(result)
+                console.log($("#region-select").find(":selected").text())
+                html = "<option value=null>Select Region</option>"
+                for (i in result) {
+                    html = html + "<option value=" + result[i].pk + ">" + result[i].fields.name +
+                        "</option><br>"
+                        // console.log(result[i].fields.name)
+                }
+                $("#region-select").html(html)
+            }
+
+        })
+    })
+
+    $("#region-select").change(function() {
+        console.log($(this).find('option:selected').val())
+        pk = $(this).find(':selected').val()
+        $.ajax({
+            url: "/hotel/CityLookup/" + pk,
+            success: function(result) {
+                result = JSON.parse(result)
+                console.log(result)
+                html = html = "<option value=null>Select City</option>"
+                for (i in result) {
+                    html = html + "<option value=" + result[i].pk + ">" + result[i].fields.name +
+                        "</option><br>"
+                        // console.log(result[i].fields.name)
+                }
+                $("#city-select").html(html)
+            }
+
+        })
+    })
+</script>
+{%endblock%}

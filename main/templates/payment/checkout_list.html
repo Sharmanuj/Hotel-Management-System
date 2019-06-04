@@ -1,0 +1,50 @@
+{% extends 'base.html' %}{% block content-title %}
+<!--ToDo Work on Front end -->
+
+
+
+<h1>{{ title }}</h1>
+{% endblock %} {% block main-content %}
+<!--================Breadcrumb Area =================-->
+<section class="breadcrumb_area blog_banner_two">
+    <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0" data-background="">
+    </div>
+    <div class="container">
+        <div class="page-cover text-center">
+            <h2 class="page-cover-tittle f_48">Check-Out Page</h2>
+            <ol class="breadcrumb">
+                <li><a href=" {% url 'index' %}">Home</a></li>
+                <li><a href=" {% url 'check_in-list' %}">Checkin-list</a></li>
+                <li class="active">check_in-details</li>
+            </ol>
+        </div>
+    </div>
+</section>
+<!--================Breadcrumb Area =================-->{% if checkout_list %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Check-Out ID</th>
+            <th>Related Check-in</th>
+            <th>Stay Duration</th>
+            <th>Total Amount</th>
+            <th>Pay Amount</th>
+            <th>Check-Out Date Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for check_out in checkout_list %}
+        <tr>
+            <td><a href="{% url 'check_out-detail' check_out.id %}">{{ check_out }}</a></td>
+            <td><a href="{% url 'check_in-detail' check_out.check_in.id %}">{{ check_out.check_in }}</a></td>
+            <td>{{ check_out.stay_duration }}</td>
+            <td>{{ check_out.total_amount }}</td>
+            <td>{{ check_out.pay_amount }}</td>
+            <td>{{ check_out.check_out_date_time }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>There are no check-ins.</p>
+{% endif %} {% endblock %}

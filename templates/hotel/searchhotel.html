@@ -1,0 +1,7 @@
+{%for hotel in hotels%}
+<!-- <h2>{{rooms}}</h2>> -->
+<div class="card bg-success">
+    {%include 'hotel/_HotelDetails.html'%} {%empty%}
+    <h4>No Rooms Found</h4>
+</div>
+{%endfor%}

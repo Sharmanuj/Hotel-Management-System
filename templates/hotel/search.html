@@ -1,0 +1,82 @@
+{%extends 'base.html'%} {%load crispy_forms_tags%} {%block content%}
+<script>
+</script>
+<div class="form-group form-horizontal">
+    {%for field in form%} {%for error in field.errors%}
+    <li>{{error}}</li>
+    {%endfor%} {%endfor%}
+    <form style="text-align:center;width: 300px;margin: 0 auto;" method="POST" id="search-form">
+        {%csrf_token%}
+        <div class="col-xs-2">
+
+            <!-- {{form.country.errors}}
+            <select name="country" class="custom-select" id='country-select'>
+            <option selected>Select Country</option>
+        </select>
+        </div><br> {{form.region.errors}}
+        <div class="col-xs-2">
+            <select name="region" class="custom-select" id="region-select">
+            <option selected>Select Region</option>
+        </select>
+        </div><br>
+        <div class="col-xs-2"> -->
+            {{form.city}}
+        </div>
+        <!-- <br> {{form.date}} -->
+        <div><br>
+            <br> <button id="search-button" class="btn btn-primary" type="button">Search</button>
+
+            <div class="col-xs-2" id="room-list-div">
+
+            </div>
+            <!-- <button type="button" id="hotel-button">hotel </button> -->
+    </form>
+
+    </div>
+
+    <script>
+        // $('hotel').submit(function(e) {
+        //     var data, xhr;
+        //     data = new FormData();
+        //     data.append('city', $('city_id', 'datetime', )[0].city[0]);
+        //     xhr = new XMLHttpRequest();
+        //     xhr.open('POST', 'http://hacheck.tel.fer.hr/xml.pl', true);
+        //     xhr.onreadystatechange = function(response) {};
+        //     xhr.send(data);
+        //     e.preventDefault();
+        // });
+    </script>
+    <script>
+        $("#search-button").click(function() {
+            var form = $('form')[0]
+            data = new FormData(form);
+            // console.log($('form')[0])
+            // console.log("{{csrf_token}}")
+            // data.append('csrfmiddlewaretoken', "{{csrf_token}}")
+            // data.append('city', $('id_city').val())
+            console.log(data)
+            id = $('#id_city').val()
+            console.log(id)
+            $.ajax({
+                url: "{%url 'hotel:list-hotel' city=2315 date='22'%}",
+                data: data,
+                processData: false,
+                contentType: false,
+                method: 'POST',
+                success: function(response) {
+                    console.log('res')
+                    $("#hotel-list-div").html("No Hotel")
+                    console.log(response.length)
+                    console.log('id')
+                    if (response.length > 1) {
+                        $("#hotel-list-div").html(response)
+                    }
+                },
+                error: function() {
+                    alert("Select City")
+                }
+            })
+
+        })
+    </script>
+    {%endblock%}

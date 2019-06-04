@@ -1,0 +1,315 @@
+{% load i18n %}{%load static%} {%load crispy_forms_tags%}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <script src={%static "js/bootstrap.min.js"%}></script>
+    <script src={%static "js/jquery-3.3.1.js"%}></script>
+    <link rel="stylesheet" href={%static "css/bootstrap.min.css" %}>
+    <script src={% static "js/script.js" %}></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="/media/image/favicon.png" type="image/png">
+    <title>Royal Hotel</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href={%static 'css/bootstrap.css'%}>
+    <link rel="stylesheet" href={%static "vendors/linericon/style.css"%}>
+    <link rel="stylesheet" href={%static "css/font-awesome.min.css"%}>
+    <link rel="stylesheet" href={%static "vendors/owl-carousel/owl.carousel.min.css"%}>
+    <link rel="stylesheet" href={%static "vendors/  -datepicker/bootstrap-datetimepicker.min.css"%}>
+    <link rel="stylesheet" href={%static "vendors/nice-select/css/nice-select.css"%}>
+    <link rel="stylesheet" href={%static "vendors/owl-carousel/owl.carousel.min.css"%}>
+    <!-- main css -->
+    <link rel="stylesheet" href={%static "css/style.css" %}>
+    <link rel="stylesheet" href={%static "css/responsive.css" %}>
+</head>
+
+<body>
+    <!--================Header Area =================-->
+    <header class="header_area">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <a class="navbar-brand logo_h" href="index.html"><img src="/media/image/Logo.png" alt=""></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav menu_nav ml-auto">
+                        <li class="nav-item active"><a class="nav-link" href="{% url 'index' %}">HotelStatus</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'guest-list' %}">Guests</a></li>
+                        <li class="nav-item"><a class="nav-link" href=" {% url 'rooms' %} ">Rooms</a></li>
+                        <li class="nav-item "><a class="nav-link " href="{% url 'payment-index' %}">Payments</a>{% if user.is_authenticated %}</li>
+                        <li class="nav-item submenu dropdown ">
+                            <a href="# " class="nav-link dropdown-toggle " data-toggle="dropdown " role="button " aria-haspopup="true " aria-expanded="false ">Check Status</a>
+                            <ul class="dropdown-menu ">
+                                <li class="nav-item "><a class="nav-link " href="{% url 'check_in-list' %}">Check-ins</a></li>
+                                <li class="nav-item "><a class="nav-link " href="{% url 'check_out-list' %}">Check-outs</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item "><a class="nav-link " href="{% url 'reserve' %}">Reserve</a></li>
+                        <li class="nav-item "><a class="nav-link " href="{% url 'reservations' %} ">Reservations</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item "><a class="nav-link " href="#">Customer
+                                Feedback</a>
+                        </li>
+                        {% block login-status %} {% if user.is_authenticated %}
+                        <li class="nav-item active"><a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item active"><a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">Login</a>
+                        </li>
+
+                        {% endif %} {% endblock %}
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main role="main" class="single-footer-widget">
+        <!-- ---------Content Heading----------- -->
+        {% block content-title %}
+        <!-- <h1>{{ title }}</h1> -->
+        {% endblock %}
+        <!-- ------------------------------------ -->
+
+        <!-- Content for the heading previously mentioned -->
+        {% block main-content %}
+        <section class="row text-center placeholders">
+
+            {% endblock %}
+            <!-- --------------------------------------------------- -->
+
+            <!-- --------------Paginator--------------- -->
+            {% block pagination %}
+            <!-- Only shows paginator if the page is paginated -->
+            {% if is_paginated %}
+            <nav aria-label="Page Navigation">
+                <ul class="pagination">
+                    <!-- Only shows previous button when it has previous -->
+                    {% if page_obj.has_previous %}
+                    <!-- Code for previous page -->
+                    {{ page_obj.previous_page_number }} is previous page number.
+                    <li class="page-item"><a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                    {% endif %}
+                    <!-- Pagination Numbers -->
+                    {% for page_no in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_no == page_obj.number %} active {% endif %}"><a class="page-link" href="{{ request.path }}?page={{ page_no }}">{{ page_no }}</a></li>
+                    {% endfor %}
+                    <!-- ------------------ --->
+                    <!-- Only shows next button if it has next page -->
+                    {% if page_obj.has_next %} {{ page_obj.next_page_number }} is next page.
+                    <li class="page-item"><a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            <!-- --------------------------------------------------------- -->
+        </section>{% endblock %}
+    </main>
+
+    <section class="breadcrumb_area">
+        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0" data-background="">
+        </div>
+        <div class="container">
+            <div class="page-cover text-center">
+                <h2 class="page-cover-tittle">Reservation Page</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li class="active">Reservation Detail Page</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    <!-- <h1>{{ title }}</h1> -->
+    {% load i18n %}
+    <h1>{{ title }}</h1>
+
+    <form action="" method="post">
+        {% csrf_token %} {{ reservation_form.non_field_errors }}
+        <fieldset class="fieldset">
+            <legend class="legend">Personal Information</legend>
+            <div class="form-row align-items-center">
+                <div class="form-group col-auto">
+                    {{ reservation_form.first_name.errors }}
+                    <label for="{{ reservation_form.first_name.id_for_label }}">First
+                        Name</label>{{ reservation_form.first_name }}
+                </div>
+                <div class="form-group col-auto">
+                    {{ reservation_form.middle_name.errors }}
+                    <label for="{{ reservation_form.middle_name.id_for_label }}">Middle
+                        Name</label>{{ reservation_form.middle_name }}
+                </div>
+                <div class="form-group col-auto">
+                    {{ reservation_form.last_name.errors }}
+                    <label for="{{ reservation_form.last_name.id_for_label }}">Last
+                        Name</label>{{ reservation_form.last_name }}
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="fieldset">
+            <legend class="legend">Contact Information</legend>
+            <div class="form-row align-items-center">
+                <div class="form-group col-auto">
+                    {{ reservation_form.contact_no.errors }}
+                    <label for="{{ reservation_form.contact_no.id_for_label }}">Contact
+                        No</label>{{ reservation_form.contact_no }}
+                </div>
+                <div class="form-group col-auto">
+                    {{ reservation_form.email.errors }}
+                    <label for="{{ reservation_form.email.id_for_label }}">Email</label>{{ reservation_form.email }}
+                </div>
+                <div class="form-group col-auto">
+                    {{ reservation_form.address.errors }}
+                    <label for="{{ reservation_form.address.id_for_label }}">Address</label>{{ reservation_form.address }}
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="fieldset">
+            <legend class="legend">Reservation Information</legend>
+            <div class="form-row align-items-center">
+                <div class="form-group col-auto">
+                    {{ reservation_form.no_of_children.errors }}
+                    <label for="{{ reservation_form.no_of_children.id_for_label }}">No of
+                        Children</label>{{ reservation_form.no_of_children }}
+                </div>
+                <div class="form-group col-auto">
+                    {{ reservation_form.no_of_adults.errors }}
+                    <label for="{{ reservation_form.no_of_adults.id_for_label }}">No of
+                        Adults</label>{{ reservation_form.no_of_adults }}
+                </div>
+            </div>
+            <div class="form-row align-items-center">
+                <div class="form-group col-auto">
+                    <p><a href="{% url 'rooms' %}" target="_blank">Click here to know about rooms</a> </p>
+                    {{ reservation_form.rooms.errors }} {{ reservation_form.rooms }}
+                </div>
+            </div>
+            <div class="form-row align-items-center">
+                <div class="form-group col-auto">
+                    {{ reservation_form.expected_arrival_date_time.errors }}
+                    <label for="{{ reservation_form.expected_arrival_date_time.id_for_label }}">Expected
+                        Arrival: </label>{{ reservation_form.expected_arrival_date_time }}
+                </div>
+                <div class="form-group col-auto">
+                    {{ reservation_form.expected_departure_date_time.errors }}
+                    <label for="{{ reservation_form.expected_departure_date_time.id_for_label }}">Expected
+                        Departure: </label>{{ reservation_form.expected_departure_date_time }}
+                </div>
+            </div>
+            <input type="submit" value="Confirm Reservation">
+        </fieldset>
+    </form>
+    {% comment %}
+    <form action="" method="post">
+        {% csrf_token %} {{ reservation_form.as_p }}
+        <input type="submit" value="Confirm Reservation" />
+    </form>
+    {% endcomment %} {% block media-files %} {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %} " />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/widgets.css' %}" />
+
+    <script type="text/javascript" src="{% static 'js/jsi18n.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/RelatedObjectLookups.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/actions.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/SelectBox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/SelectFilter2.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/DateTimeShortcuts.js' %}"></script>
+    {% endblock %}
+    <!--================ start footer Area  =================-->
+    <footer class="footer-area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6 class="footer_title">About Agency</h6>
+                        <p>The world has become so fast paced that people don’t want to stand by reading a page of information, they would much rather look at a presentation and understand the message. It has come to a point </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6 class="footer_title">Navigation Links</h6>
+                        <div class="row">
+                            <div class="col-4">
+                                <ul class="list_style">
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">Feature</a></li>
+                                    <li><a href="#">Services</a></li>
+                                    <li><a href="#">Portfolio</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <ul class="list_style">
+                                    <li><a href="#">Team</a></li>
+                                    <li><a href="#">Pricing</a></li>
+                                    <li><a href="#">Blog</a></li>
+                                    <li><a href="#">Contact</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6 class="footer_title">Newsletter</h6>
+                        <p>For business professionals caught between high OEM price and mediocre print and graphic output, </p>
+                        <div id="mc_embed_signup">
+                            <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe_form relative">
+                                <div class="input-group d-flex flex-row">
+                                    <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                    <button class="btn sub-btn"><span class="lnr lnr-location"></span></button>
+                                </div>
+                                <div class="mt-10 info"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-footer-widget instafeed">
+                        <h6 class="footer_title">InstaFeed</h6>
+                        <ul class="list_style instafeed d-flex flex-wrap">
+                            <li><img src="image/instagram/Image-01.jpg" alt=""></li>
+                            <li><img src="image/instagram/Image-02.jpg" alt=""></li>
+                            <li><img src="image/instagram/Image-03.jpg" alt=""></li>
+                            <li><img src="image/instagram/Image-04.jpg" alt=""></li>
+                            <li><img src="image/instagram/Image-05.jpg" alt=""></li>
+                            <li><img src="image/instagram/Image-06.jpg" alt=""></li>
+                            <li><img src="image/instagram/Image-07.jpg" alt=""></li>
+                            <li><img src="image/instagram/Image-08.jpg" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border_line"></div>
+            <div class="row footer-bottom d-flex justify-content-between align-items-center">
+                <p class="col-lg-8 col-sm-12 footer-text m-0">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+                <div class="col-lg-4 col-sm-12 footer-social">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-dribbble"></i></a>
+                    <a href="#"><i class="fa fa-behance"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--================ End footer Area  =================-->

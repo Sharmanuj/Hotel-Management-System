@@ -1,0 +1,29 @@
+<script type="text/javascript">
+    $("#searchinput").keyup(function() {
+        var url = $("#searchform").attr("data-search-url"); // get the url of the `load_cities` view
+        var searchinput = $("#searchinput").val();
+        console.log(searchinput); // get the selected country ID from the HTML input
+        $.ajax({ // initialize an AJAX request
+            url: url,
+            type: 'GET', // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+
+                'searchinput': searchinput
+
+                // add the country id to the GET parameters
+            },
+            success: function(data) {
+                console.log('success');
+                console.log(data);
+                // `data` is the return of the `load_cities` view function
+                $("#indexid").html(
+                    data); // replace the contents of the city input with the data that came from the server
+            },
+            error: function(data) {
+                debugger;
+                console.log(data.error + 'hi');
+            }
+        });
+
+    });
+</script>>

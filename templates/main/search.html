@@ -1,0 +1,57 @@
+{%load crispy_forms_tags%}
+<script>
+</script>
+<div class="form-group form-horizontal">
+    {%for field in form%} {%for error in field.errors%}
+    <li>{{error}}</li>
+    {%endfor%} {%endfor%}
+    <form style="text-align:center;width: 300px;margin: 0 auto;" method="POST" id="search-form">
+        {%csrf_token%}
+        <div class="col-xs-2">
+            {{form.place}}
+        </div><br> {{form.date}}
+        <div><br>
+            <br> <button id="search-button" class="btn btn-primary" type="button">Search</button>
+
+            <div class="col-xs-2" id="hotel">
+
+            </div>
+            <a class="nav-link" href="{% url 'reserve' %}">Reserve</a>
+    </form>
+
+    </div>
+
+    <script>
+    </script>
+    <script>
+        $("#search-button").click(function() {
+            var form = $('form')[0]
+            data = new FormData(form);
+            // console.log($('form')[0])
+            // console.log("{{csrf_token}}")
+            // data.append('csrfmiddlewaretoken', "{{csrf_token}}")
+            // data.append('city', $('id_city').val())
+            console.log(data)
+            id = $('#id_city').val()
+            console.log(id)
+            $.ajax({
+                url: "{%url 'reserve'%}",
+                data: data,
+                processData: true,
+                contentType: false,
+                method: 'POST',
+                success: function(response) {
+                    console.log('res')
+                    $("#hotel").html("No reserve")
+                    console.log(response.length)
+                    if (response.length > 1) {
+                        $("#hptel").html(response)
+                    }
+                },
+                error: function() {
+                    alert("Select City")
+                }
+            })
+
+        })
+    </script>

@@ -1,0 +1,111 @@
+{%extends 'base.html'%} {%load crispy_forms_tags%} {%block content%}
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: "{%url 'hotel:CountryLookup'%}",
+            dataType: 'json',
+            success: function(result) {
+                result = JSON.parse(result)
+                    // console.log(result)
+                html = html = "<option value=null>" + $("#country-select").find(":selected")
+                    .text() + "</option>"
+                for (i in result) {
+                    html = html + "<option value=" + result[i].pk + ">" + result[i].fields.name +
+                        "</option><br>"
+                        // console.log(result[i].fields.name)
+                }
+                $("#country-select").html(html)
+            }
+        })
+    })
+
+    function RegionLookup() {
+        console.log($(this).find(':selected'))
+        $.ajax({
+            url: "/hotel/RegionLookup/" + this.val,
+            success: function(result) {
+                result = JSON.parse(result)
+                console.log(result)
+                html = html = "<option value=null>Select Country</option>"
+                for (i in result) {
+                    html = html + "<option value=" + result[i].pk + ">" + result[i].fields.name +
+                        "</option><br>"
+                        // console.log(result[i].fields.name)
+                }
+                $("#region-select").html(html)
+            }
+
+        })
+    }
+</script>
+<div class="form-group form-horizontal">
+    <!-- {%for field in form%}
+    {%for error in field.errors%}
+        <li>{{error}}</li>
+    {%endfor%}
+{%endfor%} -->
+    <form style="text-align:center;width: 300px;margin: 0 auto;" method="POST">
+        {%csrf_token%} {{form.address|as_crispy_field}}
+        <div class="col-xs-2">
+            {{form.country.errors}}
+            <select name="country" class="custom-select" id='country-select'>
+                <option selected>Select Country</option>
+            </select>
+        </div><br> {{form.region.errors}}
+        <div class="col-xs-2">
+            <select name="region" class="custom-select" id="region-select">
+                <option selected>Select Region</option>
+            </select>
+        </div><br>
+        <div class="col-xs-2">
+            {{form.city.errors}}
+            <select name="city" class="custom-select" id="city-select">
+                <option selected>Select City</option>
+            </select>
+        </div><br>
+        <button class="btn btn-primary" type="submit">ADD</button>
+    </form>
+</div>
+<script>
+    $("#country-select").change(function() {
+        console.log($(this).find('option:selected').val())
+        pk = $(this).find(':selected').val()
+        $.ajax({
+            url: "/hotel/RegionLookup/" + pk,
+            success: function(result) {
+                result = JSON.parse(result)
+                    // console.log(result)
+                console.log($("#region-select").find(":selected").text())
+                html = "<option value=null>Select Region</option>"
+                for (i in result) {
+                    html = html + "<option value=" + result[i].pk + ">" + result[i].fields.name +
+                        "</option><br>"
+                        // console.log(result[i].fields.name)
+                }
+                $("#region-select").html(html)
+            }
+
+        })
+    })
+
+    $("#region-select").change(function() {
+        console.log($(this).find('option:selected').val())
+        pk = $(this).find(':selected').val()
+        $.ajax({
+            url: "/hotel/CityLookup/" + pk,
+            success: function(result) {
+                result = JSON.parse(result)
+                console.log(result)
+                html = html = "<option value=null>Select City</option>"
+                for (i in result) {
+                    html = html + "<option value=" + result[i].pk + ">" + result[i].fields.name +
+                        "</option><br>"
+                        // console.log(result[i].fields.name)
+                }
+                $("#city-select").html(html)
+            }
+
+        })
+    })
+</script>
+{%endblock%}

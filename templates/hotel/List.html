@@ -1,0 +1,17 @@
+{%extends 'base.html'%} {%block content%}
+<h2>HotelList</h2>
+<ul>
+    {%for hotelin object_list%}
+    <!-- <li>{{hotel}}</li> -->
+    <h1>{{name}}</h1>
+    <h1>{{place}}</h1>
+    <li>{% load static %}
+        <img src="{{ room.profile_picture.url }}">{{profile_picture}}</li>
+    <li>
+
+    </li>
+
+    </a>
+    {%endfor%}
+</ul>
+{%endblock%}

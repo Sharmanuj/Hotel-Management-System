@@ -1,0 +1,11 @@
+<form method="get">
+    <ul>
+        {% for reservation in filter.form.reservation %}
+        <li>
+            <button type="submit" class="button" name="reservation" value="{{ reservation }}">
+                     {{ reservation }}
+                 </button>
+        </li>
+        {% endfor %}
+    </ul>
+</form>
