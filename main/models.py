@@ -136,12 +136,12 @@ class Facility(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
-class RoomType(models.Model):
-    name = models.CharField(max_length=25)
-    price = models.PositiveSmallIntegerField()
+# @python_2_unicode_compatible
+# class RoomType(models.Model):
+#     name = models.CharField(max_length=25)
+#     price = models.PositiveSmallIntegerField()
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
 
