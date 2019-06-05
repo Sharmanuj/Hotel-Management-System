@@ -459,3 +459,14 @@ class LogInTest(TestCase):
         # should be logged in now
         self.assertTrue(response.context['user'])
 
+
+class TestLogout(TestCase):
+    
+   def test_logout(self):
+        self.client = Client()
+        # Assuming there is a user exists in tests db
+        # or make a user like.
+        # User.objects.create_user(username='fred', email='test@test.com', password='secret') 
+        self.client.login(username='fred', password='secret')
+        response = self.client.get('/logout/')
+        # self.assertEqual(response.status_code)
