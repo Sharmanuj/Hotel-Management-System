@@ -343,7 +343,7 @@ class ReservationListView2(PermissionRequiredMixin, generic.ListView, generic.Fo
 #     return render(request, 'search.html', {'quaryset': quaryset})
 
 class ReservationListView3(PermissionRequiredMixin, generic.ListView, generic.FormView):
-#     
+   
     model = Reservation
 
 #     # queryset field selects the objects to be displayed by the query.
