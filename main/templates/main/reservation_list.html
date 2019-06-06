@@ -139,7 +139,7 @@
             <td>{{ reservation.no_of_children }}</td>
             <td>{{ reservation.no_of_adults }}</td>
             <td>
-                {% for room in reservation.room_set.all %} {{ room.room_no }}{% if not forloop.last %},{% endif %} {% endfor %}
+                {% for room in reservation.room_set.all %} {{ room.room_Type }}{% if not forloop.last %},{% endif %} {% endfor %}
             </td>
             <td>{{ reservation.reservation_date_time }}</td>
             <td>{% if not reservation.checkin %}
@@ -147,6 +147,9 @@
                     Check-In
                 </button> {% else %}
                 <a class="btn btn-secondary" href="{% url 'check_in-detail' reservation.checkin.id %}">Details</a> {% endif %}</td>
+                <td>
+                <a  class="btn btn-sm btn-default pull-right "href="{% url 'gpdf' reservation.reservation_id %}">Download PDF</a>
+                </td>
         </tr>
         {% endfor %}
     </tbody>

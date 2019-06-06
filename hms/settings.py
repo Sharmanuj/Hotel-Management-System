@@ -28,6 +28,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+
+
 INSTALLED_APPS = [
     'dal',
     'dal_select2',
@@ -40,6 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
     'payment.apps.PaymentConfig',
+    'hotelapp',
+    'hotelmanage',
+    'wkhtmltopdf',
+    'rest_framework',
     # 'django.contrib.sites',
     # 'allauth.account.context_processors.account',
     # 'allauth.socialaccount.context_processors.socialaccount',
@@ -48,9 +54,11 @@ INSTALLED_APPS = [
     'django_countries',
     'address',
     'phonenumber_field',
-    # 'allauth',
+    'allauth',
     # 'allauth.account',
     # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.twitter',
    
 ]
 

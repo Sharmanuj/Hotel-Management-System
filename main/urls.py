@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path
 from django.conf.urls import url
 from . import views
+from main.views import GeneratePDF
 
 # app_name='main'
 urlpatterns = [
@@ -31,5 +32,6 @@ urlpatterns = [
     # path('Autocomplete/',views.Autocomplete.as_view(),name='light'),
     path('contact/', views.contact, name='contact'),
     path('Gallery/', views.Gallery, name='Gellery'),
+    path('r/<int:id>/pdf', GeneratePDF.as_view(), name='gpdf'),
     # path('search/', views.autocompleteModel, name='search'),
 ]

@@ -14,13 +14,26 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
+from django.template.loader import get_template
+from .utils import render_to_pdf
 # from dal import autocomplete
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from .forms import Signup, ReservationForm, CheckInRequestForm
 from .models import Room, Reservation, Customer, Staff  # Import Models
 import pytz
 
 
+class GeneratePDF(generic.edit.View):
+    def get(self,request, *args, **kwargs):
+        # print(self.kwargs['id'])
+        # return HttpResponse("HI")
+        reservation = Reservation.objects.get(pk= self.kwargs['id'])
+        print(reservation)
+        template = get_template('invoice.html')
+        context = {"reservation":reservation}
+        html = template.render(context)
+        pdf = render_to_pdf('invoice.html', context)
+        return HttpResponse(pdf,content_type='application/pdf')
 
 def index(request):
     """

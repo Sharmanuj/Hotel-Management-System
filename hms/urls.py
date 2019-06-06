@@ -28,6 +28,8 @@ urlpatterns = [
     path('payment/', include('payment.urls')),
     # path('reserve/', include('reserve.urls')),
     path('hotel/', include('hotel.urls')),
+    path('hotelapp/',include('hotelapp.urls')),
+    path('hotelmanage/',include('hotelmanage.urls'))
     # path('HotelApp/', include('HotelApp.urls')),
 ]
 
